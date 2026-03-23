@@ -1,0 +1,26 @@
+packages:
+  "framer-motion": "Needed for smooth scroll animations, revealing elements, and complex interactive UI transitions"
+  "lucide-react": "For crisp, beautiful SVG icons used throughout the interface"
+  "clsx": "Utility for conditionally joining classNames together"
+  "tailwind-merge": "Utility to resolve Tailwind CSS class conflicts"
+
+images:
+  - path: "artifacts/discord-music-bot/public/images/hero-bg.png"
+    description: "Deep space abstract dark navy background with subtle glowing nebula clouds in electric purple and neon cyan, no text"
+    aspect_ratio: "16:9"
+  - path: "artifacts/discord-music-bot/public/images/server-logo-1.png"
+    description: "Abstract geometric neon cyan and purple gaming clan logo, transparent background"
+    aspect_ratio: "1:1"
+  - path: "artifacts/discord-music-bot/public/images/server-logo-2.png"
+    description: "Cyberpunk style skull neon logo icon, transparent background"
+    aspect_ratio: "1:1"
+  - path: "artifacts/discord-music-bot/public/images/server-logo-3.png"
+    description: "Futuristic music note emblem in glowing purple, transparent background"
+    aspect_ratio: "1:1"
+  - path: "artifacts/discord-music-bot/public/images/server-logo-4.png"
+    description: "Esports team abstract angular beast logo in bright magenta and cyan, transparent background"
+    aspect_ratio: "1:1"
+
+notes:
+  - This is a purely frontend landing page showcasing a Discord bot.
+  - Smooth scrolling is enabled for anchor links.
