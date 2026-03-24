@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ParticleBackground } from "@/components/ParticleBackground";
 import { Navbar } from "@/components/Navbar";
@@ -17,7 +18,6 @@ import {
   Bot,
   Mic2,
   Music,
-  Disc,
   Music2,
   SlidersHorizontal,
   LayoutList,
@@ -28,6 +28,15 @@ const DISCORD_INVITE = "https://discord.com/oauth2/authorize?client_id=124556226
 const FOUNDER_LINK = "https://discord.com/channels/@me/1442015786745991289";
 
 export default function LandingPage() {
+  const [liveServerCount, setLiveServerCount] = useState(1024);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveServerCount(prev => prev + Math.floor(Math.random() * 5) - 1);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   const BASE_URL = import.meta.env.BASE_URL;
 
   const features = [
@@ -219,9 +228,9 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { label: "Servers", value: 500000, suffix: "+" },
+              { label: "Servers", value: 1000, suffix: "+" },
               { label: "Songs Played", value: 10000000, suffix: "+" },
-              { label: "Users", value: 1500000, suffix: "+" },
+              { label: "Users", value: 800000, suffix: "+" },
               { label: "Uptime", value: 99.9, suffix: "%" },
             ].map((stat, i) => (
               <motion.div 
@@ -232,8 +241,19 @@ export default function LandingPage() {
                 transition={{ delay: i * 0.1 }}
                 className="flex flex-col items-center"
               >
-                <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-2 text-glow-accent">
-                  <AnimatedCounter end={stat.value} suffix={stat.suffix} />
+                <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-2 text-glow-accent relative inline-block">
+                  {stat.label === "Servers" ? (
+                    <>
+                      <AnimatedCounter end={liveServerCount} suffix="+" />
+                      <span className="absolute -top-1 -right-12 flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                        <span className="ml-4 text-[10px] font-black tracking-tighter text-accent leading-none">LIVE</span>
+                      </span>
+                    </>
+                  ) : (
+                    <AnimatedCounter end={stat.value} suffix={stat.suffix} />
+                  )}
                 </h3>
                 <p className="text-muted-foreground uppercase tracking-wider text-sm font-bold">{stat.label}</p>
               </motion.div>
@@ -314,15 +334,19 @@ export default function LandingPage() {
       <section id="commands" className="py-32 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-bold tracking-wider uppercase mb-4"
-            >
-              <Disc className="w-3.5 h-3.5 animate-spin-slow" />
+            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-bold tracking-wider uppercase mb-4`}>
+              <div className="w-5 h-5 rounded-full overflow-hidden border border-primary/30">
+                <video 
+                  src="/bot-logo.mp4" 
+                  autoPlay 
+                  muted 
+                  loop 
+                  playsInline
+                  className="w-full h-full object-cover scale-[2.8]"
+                />
+              </div>
               Premium Commands
-            </motion.div>
+            </div>
             <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4">
               NEON MUSIC <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">HELP</span>
             </h2>
@@ -483,7 +507,16 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-8">
             <div className="flex items-center gap-2">
-              <Disc className="w-6 h-6 text-primary animate-spin-slow" />
+              <div className="w-10 h-10 rounded-xl overflow-hidden border border-primary/30 box-glow-primary">
+                <video 
+                  src="/bot-logo.mp4" 
+                  autoPlay 
+                  muted 
+                  loop 
+                  playsInline
+                  className="w-full h-full object-cover scale-[2.8]"
+                />
+              </div>
               <div>
                 <span className="font-display font-bold tracking-wider text-xl text-white">NEON MUSIC</span>
                 <p className="text-muted-foreground text-xs mt-0.5">Premium Discord Music Bot</p>
@@ -497,16 +530,29 @@ export default function LandingPage() {
               <a href="#stats" className="text-muted-foreground hover:text-primary transition-colors text-sm">Stats</a>
             </div>
 
-            <div className="text-right">
-              <p className="text-muted-foreground text-xs mb-1">Created with ❤️ by</p>
-              <a
-                href={FOUNDER_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent font-bold text-lg font-display tracking-wider hover:opacity-80 transition-opacity"
-              >
-                <span className="text-primary">✦</span> RIZZ <span className="text-accent">✦</span>
-              </a>
+            <div className="text-right flex flex-col items-end gap-2">
+              <div className="flex flex-col items-end">
+                <p className="text-muted-foreground text-[10px] uppercase tracking-widest mb-1 opacity-70">website made by</p>
+                <a
+                  href="https://www.mrixtech.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent font-bold text-lg font-display tracking-wider hover:opacity-80 transition-opacity"
+                >
+                  MURALI
+                </a>
+              </div>
+              <div className="flex flex-col items-end">
+                <p className="text-muted-foreground text-[10px] uppercase tracking-widest mb-1 opacity-70">dc bot dev</p>
+                <a
+                  href={FOUNDER_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary font-bold text-lg font-display tracking-wider hover:opacity-80 transition-opacity"
+                >
+                  RIZZ
+                </a>
+              </div>
             </div>
           </div>
 

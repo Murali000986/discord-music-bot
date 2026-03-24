@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Disc, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const DISCORD_INVITE = "https://discord.com/oauth2/authorize?client_id=1245562269480517716&permissions=393079767976704&scope=bot%20applications.commands";
 
@@ -32,8 +32,15 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-primary/20 text-primary border border-primary/30 box-glow-primary">
-              <Disc className="w-6 h-6 animate-spin-slow" />
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-primary/20 overflow-hidden border border-primary/30 box-glow-primary">
+              <video 
+                src="/bot-logo.mp4" 
+                autoPlay 
+                muted 
+                loop 
+                playsInline
+                className="w-full h-full object-cover scale-[2.5]"
+              />
             </div>
             <span className="font-display font-bold text-xl tracking-wider text-foreground">
               NEON <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">MUSIC</span>
